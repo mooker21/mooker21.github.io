@@ -1,0 +1,108 @@
+---
+title: Spring Json 형태의 Return
+layout: single
+author_profile: true
+read_time: true
+comments: true
+share: true
+related: true
+popular: true
+categories:
+  - Java
+  - Spring
+  - Json
+toc: true
+toc_sticky: true
+toc_label: 목차
+description: Spring Json 형태의 Return
+article_tag1: Java
+article_tag2: Spring
+article_tag3: Json
+article_section: Spring Json 형태의 Return
+meta_keywords:
+last_modified_at: 2021-06-03T00:00:00+08:00
+---
+
+## jsonView
+
+```java
+@RequestMapping(value="/jsonViewTest.do")
+public ModelAndView jsonViewTest(@RequestParam Map<String, Object> params, HttpServletRequest request){
+    ModelAndView mv = new ModelAndView();
+    List<Map<String, Object>> result = new ArrayList<HashMap<String, Object>>();
+
+    result = testService.selectData(params);
+    mv.addObject("result", result);
+    mv.setViewName("jsonView"); // json 지정
+    return mv;
+}
+```
+
+ModelAndView.setViewName("jsonView")를 통해 json형태 return.
+
+결과형태
+
+```json
+{
+  "result": [
+    { "col1": "data1", "col2": "data2" },
+    { "col1": "data3", "col2": "data4" }
+  ]
+}
+```
+
+## @ResponsBody
+
+어노테이션을 이용하는 방법
+
+```java
+@RequestMapping(value="/responseBodyTest")
+@ResponseBody
+public List<Map<String, Object>> responseBodyTest(@RequestParam Map<String, Object> params, HttpServletRequest request){
+    List<Map<String, Object>> result = new ArrayList<HashMap<String, Object>>();
+
+    result = testService.selectData(params);
+    return result;
+}
+```
+
+결과형태
+
+```json
+[
+  { "col1": "data1", "col2": "data2" },
+  { "col1": "data3", "col2": "data4" }
+]
+```
+
+## POM 설정관련
+
+@ResponsBody 어노테이션을 사용시 다음의 pom 설정이 필요 (Spring 4.x 버전일 경우)
+
+```xml
+<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+    <property name="webBindingInitializer">
+        <bean class="egovframework.example.cmmn.web.EgovBindingInitializer"/>
+    </property>
+    `**`<property name="messageConverters">
+      <list>
+        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+        <bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter">
+          <property name="supportedMediaTypes">
+            <list>
+              <value>*/*;charset=UTF-8</value>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>`**`
+</bean>
+```
+
+[참고]({{ "https://www.egovframe.go.kr/home/qainfo/qainfoRead.do?pagerOffset=0&searchKey=all&searchValue=Spring+4.1.2+jackson&menuNo=69&qaId=QA_00000000000016748" }}){:target="\_blank"}
+
+@ResponsBody 어노테이션을 사용시 다음의 pom 설정이 필요 (Spring 3.x 버전일 경우)
+
+```xml
+<bean id="jsonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+```
