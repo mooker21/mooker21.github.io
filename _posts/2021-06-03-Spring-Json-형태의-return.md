@@ -25,6 +25,41 @@ last_modified_at: 2021-06-03T00:00:00+08:00
 
 ## jsonView
 
+pom.xml 설정
+
+```xml
+<!-- Ajax -->
+<dependency>
+  <groupId>net.sf.json-lib</groupId>
+  <artifactId>json-lib</artifactId>
+  <version>2.4</version>
+  <classifier>jdk15</classifier>
+</dependency>
+
+<dependency>
+  <groupId>org.codehaus.jackson</groupId>
+  <artifactId>jackson-core-asl</artifactId>
+  <version>1.8.0</version>
+</dependency>
+<dependency>
+  <groupId>org.codehaus.jackson</groupId>
+  <artifactId>jackson-mapper-asl</artifactId>
+  <version>1.8.0</version>
+</dependency>
+```
+
+dispatcherServlet.xml 설정
+
+```xml
+<!-- jsonView -->
+<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" id="viewResolver" p:order="0"/>
+<bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" id="jsonView">
+    <property name="contentType" value="application/json;charset=UTF-8"/>
+</bean>
+```
+
+pom.xml 설정
+
 ```java
 @RequestMapping(value="/jsonViewTest.do")
 public ModelAndView jsonViewTest(@RequestParam Map<String, Object> params, HttpServletRequest request){
@@ -51,31 +86,7 @@ ModelAndView.setViewName("jsonView")를 통해 json형태 return.
 }
 ```
 
-## @ResponsBody
-
-어노테이션을 이용하는 방법
-
-```java
-@RequestMapping(value="/responseBodyTest")
-@ResponseBody
-public List<Map<String, Object>> responseBodyTest(@RequestParam Map<String, Object> params, HttpServletRequest request){
-    List<Map<String, Object>> result = new ArrayList<HashMap<String, Object>>();
-
-    result = testService.selectData(params);
-    return result;
-}
-```
-
-결과형태
-
-```json
-[
-  { "col1": "data1", "col2": "data2" },
-  { "col1": "data3", "col2": "data4" }
-]
-```
-
-## POM 설정관련
+## @ResponsBody 어노테이션을 이용하는 방법
 
 @ResponsBody 어노테이션을 사용시 다음의 pom 설정이 필요 (Spring 4.x 버전일 경우)
 
@@ -105,4 +116,26 @@ public List<Map<String, Object>> responseBodyTest(@RequestParam Map<String, Obje
 
 ```xml
 <bean id="jsonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+```
+
+Java 소스 코드
+
+```java
+@RequestMapping(value="/responseBodyTest")
+@ResponseBody
+public List<Map<String, Object>> responseBodyTest(@RequestParam Map<String, Object> params, HttpServletRequest request){
+    List<Map<String, Object>> result = new ArrayList<HashMap<String, Object>>();
+
+    result = testService.selectData(params);
+    return result;
+}
+```
+
+결과형태
+
+```json
+[
+  { "col1": "data1", "col2": "data2" },
+  { "col1": "data3", "col2": "data4" }
+]
 ```
