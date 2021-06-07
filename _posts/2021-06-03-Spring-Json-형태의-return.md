@@ -84,7 +84,7 @@ public List<Map<String, Object>> responseBodyTest(@RequestParam Map<String, Obje
     <property name="webBindingInitializer">
         <bean class="egovframework.example.cmmn.web.EgovBindingInitializer"/>
     </property>
-    `**`<property name="messageConverters">
+    <property name="messageConverters">
       <list>
         <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
         <bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter">
@@ -95,7 +95,7 @@ public List<Map<String, Object>> responseBodyTest(@RequestParam Map<String, Obje
           </property>
         </bean>
       </list>
-    </property>`**`
+    </property>
 </bean>
 ```
 
