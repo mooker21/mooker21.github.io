@@ -107,6 +107,7 @@ ModelAndView.setViewName("jsonView")를 통해 json형태 return.
         </bean>
       </list>
     </property>
+
 </bean>
 ```
 
