@@ -375,12 +375,12 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 	* @throws CommException
 	*/
 @RequestMapping(value = "/sampleCall.do")
-public ModelAndView reportDetail( @RequestParam("seq") String seq,Model model, HttpServletRequest request, HttpServletResponse response) throws CommException{
+public ModelAndView sampleCall( @RequestParam("seq") String seq,Model model, HttpServletRequest request, HttpServletResponse response) throws CommException{
 	ModelAndView mv = new ModelAndView("com_sample_call_details"); // jsp 페이지
 
-	ConsultReportVO consultReportVO = crService.crDetail(seq); // 조회
+	SampleVO sampleVO = UserService.sampleDetail(seq); // 조회
 
-	mv.addObject("consultReportVO", consultReportVO);
+	mv.addObject("sampleVO", sampleVO);
 
 	// 개인정보 노출 기록 (필드명 전달 방식)
 	mv.addObject("privacyItem", String.format("0001:%s,0006:%s,0001:%s",
@@ -389,9 +389,9 @@ public ModelAndView reportDetail( @RequestParam("seq") String seq,Model model, H
 			"chmnname")); // 바이어담당자명
 	// 개인정보 노출 기록 (값 전달방식)
 	mv.addObject("privacyValue", String.format("0001:%s,0006:%s,0006:%s",
-			consultReportVO.getCustName(), // 이름
-			consultReportVO.getCustTelNo(), // 연락처
-			consultReportVO.getCustMmgTelNo())); // 담당자연락처
+			sampleVO.getCustName(), // 이름
+			sampleVO.getCustTelNo(), // 연락처
+			sampleVO.getCustMmgTelNo())); // 담당자연락처
 
 	return mv;
 }
