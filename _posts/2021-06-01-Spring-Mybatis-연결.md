@@ -217,9 +217,9 @@ com.mysql.cj.jdbc.ConnectionImpl@647fd8ce
 <!-- <property name="mapperLocations" value="classpath:/mapper/**/*Mapper.xml" /> -->
 </bean>
 
-<!--<bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession" destroy-method="clearCache"> -->
-<!--  <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" /> -->
-<!--</bean>-->
+<bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession" destroy-method="clearCache">
+	<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
 ```
 
 DB url, username, password 같은 정보는 보안상 따로 파일을 만들어서 변수를 사용하여 입력하는게 좋은 방법.
