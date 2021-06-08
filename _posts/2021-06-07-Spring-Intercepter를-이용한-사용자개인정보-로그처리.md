@@ -36,25 +36,25 @@ last_modified_at: 2021-06-07T00:00:00+08:00
 ## dispatcher-servlet.xml 에 설정 추가
 
 ```xml
-	<mvc:interceptors>
-	    <mvc:interceptor>
-	    <!-- 로그인 해야지 보이는 URL -->
-	        <mvc:mapping path="/admin/*.do"/> <!-- 절대경로(/)부터 시작하면 중간경로가 있을 수 있기에 (**)으로 표시 -->
-	        <mvc:mapping path="/*.do"/> <!-- 절대경로(/)부터 시작하면 중간경로가 있을 수 있기에 (**)으로 표시 -->
-        <!-- 로그인 안해도 보이는 URL -->
-	        <mvc:exclude-mapping path="/login.do"/>
-	        <mvc:exclude-mapping path="/logoutCheck.do"/>
-	        <mvc:exclude-mapping path="/loginAgency.do"/>
-	        <mvc:exclude-mapping path="/loginCheck.do"/>
-	        <mvc:exclude-mapping path="/setTime.do"/>
-	        <mvc:exclude-mapping path="/regUserView.do"/>
-	        <mvc:exclude-mapping path="/insertUser.do"/>
-	        <mvc:exclude-mapping path="/idCheck.do"/>
-	        <mvc:exclude-mapping path="/findIdView.do"/>
-	        <mvc:exclude-mapping path="/getUserId.do"/>
-	        <bean class="sample.common.serivce.AuthInterceptor" />
-	    </mvc:interceptor>
-	</mvc:interceptors>
+<mvc:interceptors>
+	<mvc:interceptor>
+	<!-- 로그인 해야지 보이는 URL -->
+		<mvc:mapping path="/admin/*.do"/> <!-- 절대경로(/)부터 시작하면 중간경로가 있을 수 있기에 (**)으로 표시 -->
+		<mvc:mapping path="/*.do"/> <!-- 절대경로(/)부터 시작하면 중간경로가 있을 수 있기에 (**)으로 표시 -->
+	<!-- 로그인 안해도 보이는 URL -->
+		<mvc:exclude-mapping path="/login.do"/>
+		<mvc:exclude-mapping path="/logoutCheck.do"/>
+		<mvc:exclude-mapping path="/loginAgency.do"/>
+		<mvc:exclude-mapping path="/loginCheck.do"/>
+		<mvc:exclude-mapping path="/setTime.do"/>
+		<mvc:exclude-mapping path="/regUserView.do"/>
+		<mvc:exclude-mapping path="/insertUser.do"/>
+		<mvc:exclude-mapping path="/idCheck.do"/>
+		<mvc:exclude-mapping path="/findIdView.do"/>
+		<mvc:exclude-mapping path="/getUserId.do"/>
+		<bean class="sample.common.serivce.AuthInterceptor" />
+	</mvc:interceptor>
+</mvc:interceptors>
 ```
 
 ## Intercepter 생성

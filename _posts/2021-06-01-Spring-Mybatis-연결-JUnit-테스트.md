@@ -1,5 +1,5 @@
 ---
-title: Spring Mybatis 연결
+title: Spring Mybatis 연결 및 jUnit 테스트
 layout: single
 author_profile: true
 read_time: true
@@ -9,15 +9,16 @@ related: true
 popular: true
 categories:
   - Java
+  - Spring
 toc: true
 toc_sticky: true
 toc_label: 목차
-description: Spring Mybatis 연결
-article_tag1: Spring Mybatis 연결
+description: Spring Mybatis 연결 및 jUnit 테스트
+article_tag1: Spring Mybatis 연결 및 jUnit 테스트
 article_tag2:
 article_tag3:
 article_section: Spring Mybatis 연결
-meta_keywords: Java, Spring
+meta_keywords: Java, Spring, jUnit
 last_modified_at: 2021-06-07T00:00:00+08:00
 ---
 
@@ -330,4 +331,86 @@ public class MyBatisTest {
 		}
 	}
 }
+```
+
+## POM 최종 정리
+
+```xml
+
+<modelVersion>4.0.0</modelVersion>
+<groupId>com.myspringtest</groupId>
+<artifactId>aid</artifactId>
+<name>MySpringTest</name>
+<packaging>war</packaging>
+<version>1.0.0</version>
+<properties>
+	<java-version>1.8</java-version>
+	<org.springframework-version>4.3.30.RELEASE</org.springframework-version>
+	<org.aspectj-version>1.9.6</org.aspectj-version>
+	<org.slf4j-version>1.7.30</org.slf4j-version>
+</properties>
+
+
+<!-- Test -->
+<dependency>
+	<groupId>junit</groupId>
+	<artifactId>junit</artifactId>
+	<version>4.12</version>
+	<scope>test</scope>
+</dependency>
+
+<!-- Mysql Connector -->
+<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+<dependency>
+	<groupId>mysql</groupId>
+	<artifactId>mysql-connector-java</artifactId>
+	<version>8.0.21</version>
+</dependency>
+
+
+<!-- MyBatis -->
+<dependency>
+	<groupId>org.mybatis</groupId>
+	<artifactId>mybatis</artifactId>
+	<version>3.5.3</version>
+</dependency>
+
+<!-- MyBatis-Spring -->
+<dependency>
+	<groupId>org.mybatis</groupId>
+	<artifactId>mybatis-spring</artifactId>
+	<version>2.0.6</version>
+</dependency>
+
+<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-test</artifactId>
+	<version>5.2.12.RELEASE</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp -->
+<dependency>
+	<groupId>commons-dbcp</groupId>
+	<artifactId>commons-dbcp</artifactId>
+	<version>1.4</version>
+</dependency>
+
+<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-beans</artifactId>
+	<version>5.2.12.RELEASE</version>
+</dependency>
+
+<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-core</artifactId>
+	<version>5.2.12.RELEASE</version>
+</dependency>
+
+<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-jdbc</artifactId>
+	<version>5.2.12.RELEASE</version>
+</dependency>
+
 ```
