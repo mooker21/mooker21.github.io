@@ -21,8 +21,6 @@ meta_keywords: Java, Eclipse, jar
 last_modified_at: 2021-05-22T00:00:00+08:00
 ---
 
-# Eclipse에서 외부 jar 파일 추가 하기
-
 1. src/main/webapp/WEB-INF 폴더에 lib 이름의 폴더 생성
 
 2. WEB-INF/lib 폴더에 jar 파일 추가

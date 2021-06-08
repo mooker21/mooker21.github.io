@@ -26,30 +26,30 @@ last_modified_at: 2021-06-07T00:00:00+08:00
 ### JDK와 jUnit 설정
 
 ```xml
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.myspringtest</groupId>
-	<artifactId>aid</artifactId>
-	<name>MySpringTest</name>
-	<packaging>war</packaging>
-	<version>1.0.0</version>
-	<properties>
-		<java-version>1.8</java-version>
-		<org.springframework-version>4.3.30.RELEASE</org.springframework-version>
-		<org.aspectj-version>1.9.6</org.aspectj-version>
-		<org.slf4j-version>1.7.30</org.slf4j-version>
-	</properties>
+<modelVersion>4.0.0</modelVersion>
+<groupId>com.myspringtest</groupId>
+<artifactId>aid</artifactId>
+<name>MySpringTest</name>
+<packaging>war</packaging>
+<version>1.0.0</version>
+<properties>
+	<java-version>1.8</java-version>
+	<org.springframework-version>4.3.30.RELEASE</org.springframework-version>
+	<org.aspectj-version>1.9.6</org.aspectj-version>
+	<org.slf4j-version>1.7.30</org.slf4j-version>
+</properties>
 ```
 
 ### JUnit dependency버전을 4.12로 변경
 
 ```xml
-        <!-- Test -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
+<!-- Test -->
+<dependency>
+	<groupId>junit</groupId>
+	<artifactId>junit</artifactId>
+	<version>4.12</version>
+	<scope>test</scope>
+</dependency>
 ```
 
 @Test
@@ -72,18 +72,22 @@ org.junit.Assert.assertxxx
 Mysql Connecter 등록
 
 ```xml
-		<!-- Mysql Connector -->
-		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.21</version>
-		</dependency>
+<!-- Mysql Connector -->
+<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+<dependency>
+	<groupId>mysql</groupId>
+	<artifactId>mysql-connector-java</artifactId>
+	<version>8.0.21</version>
+</dependency>
 ```
 
-### 테스트 코드 (MySQLConnectionTest.java)
+### 테스트 (MySQLConnectionTest.java)
 
 패키지 생성 후 파일 생성 및 작성 > 생성된 파일에서 오른쪽 마우스 > Run As > JUnit Test 클릭
+
+DriverManager 등이 에러가 날 경우 프로젝트의 Java version 확인 필요 (Java Build Path 등)
+
+MySQLConnectionTest.java
 
 ```java
 package com.myspringtest.study;
@@ -137,6 +141,11 @@ com.mysql.cj.jdbc.ConnectionImpl@647fd8ce
 ===== mysql connection test end =====
 ```
 
+에러 발생시,
+프로젝트 우클릭 > Properties > Java Build Path > Libraries > Add Library > JUnit 추가
+
+![image](https://user-images.githubusercontent.com/83876951/121114354-86d45a00-c84e-11eb-9c6f-4e9e02a03d1a.png)
+
 # Mybatis 연동
 
 ## Step 1 : pom 추가
@@ -148,50 +157,50 @@ com.mysql.cj.jdbc.ConnectionImpl@647fd8ce
 - Spring-test : 스프링과 MyBitis가 정상적으로 연동되었는지 확인 라이브러리
 
 ```xml
-		<!-- MyBatis -->
-		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis</artifactId>
-			<version>3.5.3</version>
-		</dependency>
+<!-- MyBatis -->
+<dependency>
+	<groupId>org.mybatis</groupId>
+	<artifactId>mybatis</artifactId>
+	<version>3.5.3</version>
+</dependency>
 
-		<!-- MyBatis-Spring -->
-		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis-spring</artifactId>
-			<version>2.0.6</version>
-		</dependency>
+<!-- MyBatis-Spring -->
+<dependency>
+	<groupId>org.mybatis</groupId>
+	<artifactId>mybatis-spring</artifactId>
+	<version>2.0.6</version>
+</dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>5.2.12.RELEASE</version>
-		</dependency>
+<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-test</artifactId>
+	<version>5.2.12.RELEASE</version>
+</dependency>
 
-		<!-- https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp -->
-		<dependency>
-		    <groupId>commons-dbcp</groupId>
-		    <artifactId>commons-dbcp</artifactId>
-		    <version>1.4</version>
-		</dependency>
+<!-- https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp -->
+<dependency>
+	<groupId>commons-dbcp</groupId>
+	<artifactId>commons-dbcp</artifactId>
+	<version>1.4</version>
+</dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-			<version>5.2.12.RELEASE</version>
-		</dependency>
+<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-beans</artifactId>
+	<version>5.2.12.RELEASE</version>
+</dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>5.2.12.RELEASE</version>
-		</dependency>
+<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-core</artifactId>
+	<version>5.2.12.RELEASE</version>
+</dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version>5.2.12.RELEASE</version>
-		</dependency>
+<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-jdbc</artifactId>
+	<version>5.2.12.RELEASE</version>
+</dependency>
 ```
 
 ### root-context.xml 수정
@@ -205,7 +214,7 @@ com.mysql.cj.jdbc.ConnectionImpl@647fd8ce
 ```xml
 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
   <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
-  <property name="url" value="jdbc:mysql://localhost:3306/study?serverTimezone=UTC" />
+  <property name="url" value="jdbc:mysql://localhost:3306/study?characterEncoding=utf-8&amp;serverTimezone=UTC" />
   <property name="username" value="root" />
   <property name="password" value="root" />
 </bean>
@@ -270,17 +279,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/spring/**/root-context.xml"})
 public class DataSourceTest {
 
-		@Inject
-		private DataSource ds;
+	@Inject
+	private DataSource ds;
 
-		@Test
-		public void testConnection() throws Exception{
-			try(Connection conn = ds.getConnection()){
-	            System.out.println("===== connection test start =====");
-	            System.out.println(conn);
-	            System.out.println("===== connection test end =====");
-			}catch(Exception e){ e.printStackTrace(); }
-		}
+	@Test
+	public void testConnection() throws Exception{
+		try(Connection conn = ds.getConnection()){
+			System.out.println("===== connection test start =====");
+			System.out.println(conn);
+			System.out.println("===== connection test end =====");
+		}catch(Exception e){ e.printStackTrace(); }
+	}
 }
 ```
 
@@ -288,7 +297,6 @@ MyBatisTest.java 파일 생성
 
 ```java
 package com.myspring.starter;
-
 
 import javax.inject.Inject;
 
