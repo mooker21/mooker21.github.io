@@ -22,7 +22,7 @@ meta_keywords: Java, Spring
 last_modified_at: 2021-06-09T00:00:00+08:00
 ---
 
-### 기본설정
+### 기본설정 (Log설정)
 
 **Tip:** 지난 자료 참고에서 제일 하단 **POM 최종정리**를 확인  
 그외 **root-context.xml**, **mybatis-config.xml** 설정도 확인 가능  
@@ -50,23 +50,25 @@ pom.xml 에 MyBatis Sql 콘솔로그 출력을 위한 log4jdbc-log4j2 라이브�
 3. SqlSessionTemplate는 기본적인 트랜잭션 관리나 쓰레드 처리 안정성 보장, DB의 연결과 종료를 관리.  
    SqlSessionTemplate을 등록해두면 개발자가 직접 트랜잭션 관리나 DB 연결, 종료를 해야 하는 작업을 직접 처리 함.
 
+![image](https://user-images.githubusercontent.com/83876951/121302417-9ded7780-c934-11eb-9687-ddf40b59a267.png)
+
 ```xml
 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
   <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
   <property name="url" value="jdbc:log4jdbc:mysql://localhost:3306/study?characterEncoding=utf-8&amp;serverTimezone=UTC" />
-  <property name="username" value="root" />
-  <property name="password" value="root" />
+  <property name="username" value="아이디" />
+  <property name="password" value="패스워드" />
 </bean>
 
 <!-- Mysql <-> Mybatis를 연결해주는 객체 -->
 <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
   <property name="dataSource" ref="dataSource" />
-    <property name="configLocation" value="classpath:mybatis-config.xml" />
-	<property name="mapperLocations" value="classpath:/mappers/**/*Mapper.xml" />
+  <property name="configLocation" value="classpath:mybatis-config.xml" />
+  <property name="mapperLocations" value="classpath:/mappers/**/*Mapper.xml" />
 </bean>
 
 <bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession" destroy-method="clearCache">
-	<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
+  <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
 </bean>
 ```
 
@@ -85,3 +87,86 @@ INSERT INTO TB_TEST(USER_ID, USER_PW, USER_NM) VALUES ( 'id1', 'pw1', 'name1');
 INSERT INTO TB_TEST(USER_ID, USER_PW, USER_NM) VALUES ( 'id2', 'pw2', 'name2');
 INSERT INTO TB_TEST(USER_ID, USER_PW, USER_NM) VALUES ( 'id3', 'pw3', 'name3');
 ```
+
+### Log 관련 파일 생성
+
+**src/main/resources** 아래에 다음 파일 생성
+
+1.  **log4jdbc.log4j2.properties**
+2.  **logback.xml**
+
+log4jdbc.log4j2.properties
+
+```
+log4jdbc.spylogdelegator.name=net.sf.log4jdbc.log.slf4j.Slf4jSpyLogDelegator
+```
+
+logback.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <!-- log4jdbc-log4j2 -->
+    <logger name="jdbc.sqlonly" level="DEBUG" />
+    <logger name="jdbc.sqltiming" level="INFO" />
+    <logger name="jdbc.audit" level="WARN" />
+    <logger name="jdbc.resultset" level="ERROR" />
+    <logger name="jdbc.resultsettable" level="ERROR" />
+    <logger name="jdbc.connection" level="INFO" />
+
+</configuration>
+```
+
+### log4j Level 수정
+
+수정 후 Eclipse Console에서 쿼리 관련정보 확인 가능
+
+![image](https://user-images.githubusercontent.com/83876951/121312990-e90d8780-c940-11eb-8f5c-457ff747ea3c.png)
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<!-- Appenders -->
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
+		</layout>
+	</appender>
+
+	<!-- Application Loggers -->
+	<logger name="com.starter.spring">
+		<level value="info" />
+	</logger>
+
+	<!-- 3rdparty Loggers -->
+	<logger name="org.springframework.core">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.springframework.beans">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.springframework.context">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.springframework.web">
+		<level value="info" />
+	</logger>
+
+	<!-- Root Logger -->
+	<root>
+		<priority value="info" />
+		<appender-ref ref="console" />
+	</root>
+
+</log4j:configuration>
+```
+
+### MyBatis 설정 파일 및 mapper.xml 파일 생성

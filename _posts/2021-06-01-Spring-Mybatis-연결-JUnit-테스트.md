@@ -1,5 +1,5 @@
 ---
-title: Spring Mybatis 연결 및 jUnit 테스트
+title: Spring Mybatis 연결
 layout: single
 author_profile: true
 read_time: true
@@ -13,12 +13,12 @@ categories:
 toc: true
 toc_sticky: true
 toc_label: 목차
-description: Spring Mybatis 연결 및 jUnit 테스트
-article_tag1: Spring Mybatis 연결 및 jUnit 테스트
+description: Spring Mybatis 연결
+article_tag1: Spring Mybatis 연결
 article_tag2:
 article_tag3:
 article_section: Spring Mybatis 연결
-meta_keywords: Java, Spring, jUnit
+meta_keywords: Java, Spring
 last_modified_at: 2021-06-07T00:00:00+08:00
 ---
 
@@ -204,7 +204,7 @@ com.mysql.cj.jdbc.ConnectionImpl@647fd8ce
 </dependency>
 ```
 
-### root-context.xml 수정
+## Step 2 : root-context.xml 수정
 
 - /src/main/webapp/WEB-INF/spring/**root-context.xml** 파일의 namespace 에서 **aop, beans, context, jdbc, mybatis-spring** 를 선택
 
@@ -241,7 +241,7 @@ mybatis-config.xml, member-config.xml 파일은 **src/main/resources** 디렉토
 
 sqlSessionFactory는 데이터베이스 연결과 sql문 실행에 대한 모든 것을 가진 가장 중요한 객체.
 
-### mybatis-config.xml 파일 생성
+## Step 3 : mybatis-config.xml 파일 생성
 
 ![image](https://user-images.githubusercontent.com/83876951/121053098-f9fdb200-c7f5-11eb-9968-e98f74626993.png)
 
@@ -252,14 +252,14 @@ sqlSessionFactory는 데이터베이스 연결과 sql문 실행에 대한 모든
 </configuration>
 ```
 
-### DataBase와 MyBatis 연동테스트 (root-context.xml에 입력한 코드 확인)
-
-다음 코드가 에러가 날 경우
-[링크]({{ "https://blog.naver.com/PostView.nhn?blogId=pyj721aa&logNo=221261302683&parentCategoryNo=&categoryNo=49&viewDate=&isShowPopularPosts=true&from=search" }}){:target="\_blank"} 참고.
+## Step 4 : 테스트
 
 ![image](https://user-images.githubusercontent.com/83876951/121055015-dcc9e300-c7f7-11eb-9bb6-81e7c013aa18.png)
 
-DataSourceTest.java 파일 생성
+### DataSourceTest.java 파일 생성
+
+다음 코드가 에러가 날 경우
+[링크]({{ "https://blog.naver.com/PostView.nhn?blogId=pyj721aa&logNo=221261302683&parentCategoryNo=&categoryNo=49&viewDate=&isShowPopularPosts=true&from=search" }}){:target="\_blank"} 참고.
 
 ```java
 package com.myspringtest.study;
@@ -294,7 +294,7 @@ public class DataSourceTest {
 }
 ```
 
-MyBatisTest.java 파일 생성
+### MyBatisTest.java 파일 생성
 
 ```java
 package com.myspring.starter;
@@ -331,86 +331,4 @@ public class MyBatisTest {
 		}
 	}
 }
-```
-
-## POM 최종 정리
-
-```xml
-
-<modelVersion>4.0.0</modelVersion>
-<groupId>com.myspringtest</groupId>
-<artifactId>aid</artifactId>
-<name>MySpringTest</name>
-<packaging>war</packaging>
-<version>1.0.0</version>
-<properties>
-	<java-version>1.8</java-version>
-	<org.springframework-version>4.3.30.RELEASE</org.springframework-version>
-	<org.aspectj-version>1.9.6</org.aspectj-version>
-	<org.slf4j-version>1.7.30</org.slf4j-version>
-</properties>
-
-
-<!-- Test -->
-<dependency>
-	<groupId>junit</groupId>
-	<artifactId>junit</artifactId>
-	<version>4.12</version>
-	<scope>test</scope>
-</dependency>
-
-<!-- Mysql Connector -->
-<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-<dependency>
-	<groupId>mysql</groupId>
-	<artifactId>mysql-connector-java</artifactId>
-	<version>8.0.21</version>
-</dependency>
-
-
-<!-- MyBatis -->
-<dependency>
-	<groupId>org.mybatis</groupId>
-	<artifactId>mybatis</artifactId>
-	<version>3.5.3</version>
-</dependency>
-
-<!-- MyBatis-Spring -->
-<dependency>
-	<groupId>org.mybatis</groupId>
-	<artifactId>mybatis-spring</artifactId>
-	<version>2.0.6</version>
-</dependency>
-
-<dependency>
-	<groupId>org.springframework</groupId>
-	<artifactId>spring-test</artifactId>
-	<version>5.2.12.RELEASE</version>
-</dependency>
-
-<!-- https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp -->
-<dependency>
-	<groupId>commons-dbcp</groupId>
-	<artifactId>commons-dbcp</artifactId>
-	<version>1.4</version>
-</dependency>
-
-<dependency>
-	<groupId>org.springframework</groupId>
-	<artifactId>spring-beans</artifactId>
-	<version>5.2.12.RELEASE</version>
-</dependency>
-
-<dependency>
-	<groupId>org.springframework</groupId>
-	<artifactId>spring-core</artifactId>
-	<version>5.2.12.RELEASE</version>
-</dependency>
-
-<dependency>
-	<groupId>org.springframework</groupId>
-	<artifactId>spring-jdbc</artifactId>
-	<version>5.2.12.RELEASE</version>
-</dependency>
-
 ```
