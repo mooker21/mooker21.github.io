@@ -178,7 +178,7 @@ logback.xml
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
-		<typeAlias alias="memberVO" type="com.sample.MemberVO"/>
+		<typeAlias alias="memberVO" type="com.member.dto.MemberVO"/>
     </typeAliases>
 </configuration>
 ```
