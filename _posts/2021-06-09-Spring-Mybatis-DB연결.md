@@ -79,13 +79,13 @@ pom.xml 에 MyBatis Sql 콘솔로그 출력을 위한 log4jdbc-log4j2 라이브�
 CREATE TABLE `TB_TEST`(
       `USER_ID` VARCHAR(10) NOT NULL,
       `USER_PW` VARCHAR(10),
-      `USER_NM` VARCHAR(10),
+      `USER_NAME` VARCHAR(10),
     PRIMARY KEY (`USER_ID`)
 );
 -- 데이터
-INSERT INTO TB_TEST(USER_ID, USER_PW, USER_NM) VALUES ( 'id1', 'pw1', 'name1');
-INSERT INTO TB_TEST(USER_ID, USER_PW, USER_NM) VALUES ( 'id2', 'pw2', 'name2');
-INSERT INTO TB_TEST(USER_ID, USER_PW, USER_NM) VALUES ( 'id3', 'pw3', 'name3');
+INSERT INTO TB_TEST(USER_ID, USER_PW, USER_NAME) VALUES ( 'id1', 'pw1', 'name1');
+INSERT INTO TB_TEST(USER_ID, USER_PW, USER_NAME) VALUES ( 'id2', 'pw2', 'name2');
+INSERT INTO TB_TEST(USER_ID, USER_PW, USER_NAME) VALUES ( 'id3', 'pw3', 'name3');
 ```
 
 ### Log 관련 파일 생성
@@ -169,4 +169,144 @@ logback.xml
 </log4j:configuration>
 ```
 
-### MyBatis 설정 파일 및 mapper.xml 파일 생성
+### MyBatis 설정 파일 ( mybatis-config.xml ) 생성
+
+**src/main/resources** 아래 **mybatis-config.xml** 파일 생성
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+		<typeAlias alias="memberVO" type="com.sample.MemberVO"/>
+    </typeAliases>
+</configuration>
+```
+
+### VO, Mapper 관련 파일 생성
+
+**MemberVO.java** 파일 생성
+
+```java
+package com.member.dto;
+
+public class MemberVO {
+
+	private String userId;
+	private String userPW;
+	private String userName;
+
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public String getUserPW() {
+		return userPW;
+	}
+	public void setUserPW(String userPW) {
+		this.userPW = userPW;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	@Override
+	public String toString() {
+		return "MemberVO [userId=" + userId + ", userPW=" + userPW + ", userName=" + userName + "]";
+	}
+
+}
+```
+
+**MemberDAO.java** Interface 파일 생성
+
+```java
+package com.member.dao;
+
+import java.util.List;
+
+import com.member.dto.MemberVO;
+
+public interface MemberDAO {
+
+	public List<MemberVO> selectMember() throws Exception;
+
+}
+```
+
+**src/main/resources/mappers** 아래 **memberMapper.xml** 파일 생성
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.member.dao.MemberDAO">
+
+    <select id="selectMember" resultType="memberVO">
+        SELECT USER_ID
+        	, USER_PW
+        	, USER_NM
+        FROM TB_TEST
+    </select>
+
+</mapper>
+```
+
+### Service 관련 파일 생성
+
+**MemberService.java** 파일 생성
+
+```java
+package com.member.service;
+
+import java.util.List;
+
+import com.member.dto.MemberVO;
+
+public interface MemberService {
+
+    public List<MemberVO> selectMember() throws Exception;
+
+}
+```
+
+**MemberServiceImpl.java** 파일 생성
+
+```java
+package com.member.service;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
+import com.member.dao.MemberDAO;
+import com.member.dto.MemberVO;
+
+@Service
+public class MemberServiceImpl implements MemberService {
+
+	@Inject
+	private MemberDAO dao;
+
+	@Override
+	public List<MemberVO> selectMember() throws Exception {
+		return dao.selectMember();
+	}
+
+}
+```
+
+### Controller 파일 생성
+
+**MemberController.java** 파일 생성
+
+```java
+
+```
