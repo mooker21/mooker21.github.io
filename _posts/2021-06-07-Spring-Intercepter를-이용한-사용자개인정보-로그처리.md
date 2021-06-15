@@ -38,10 +38,10 @@ last_modified_at: 2021-06-07T00:00:00+08:00
 ```xml
 <mvc:interceptors>
 	<mvc:interceptor>
-	<!-- 로그인 해야지 보이는 URL -->
+		<!-- 로그인 해야지 보이는 URL -->
 		<mvc:mapping path="/admin/*.do"/> <!-- 절대경로(/)부터 시작하면 중간경로가 있을 수 있기에 (**)으로 표시 -->
 		<mvc:mapping path="/*.do"/> <!-- 절대경로(/)부터 시작하면 중간경로가 있을 수 있기에 (**)으로 표시 -->
-	<!-- 로그인 안해도 보이는 URL -->
+		<!-- 로그인 안해도 보이는 URL -->
 		<mvc:exclude-mapping path="/login.do"/>
 		<mvc:exclude-mapping path="/logoutCheck.do"/>
 		<mvc:exclude-mapping path="/loginAgency.do"/>
@@ -138,8 +138,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     						// 세션 재등록
     						httpSession.setAttribute("userId", result.getUserId());
     						httpSession.setAttribute("grpCd", grpCd);
-							httpSession.setAttribute("userNm", "");
-							httpSession.setAttribute("deptCd", ""); // 부서코드
+    						httpSession.setAttribute("userNm", "");
+    						httpSession.setAttribute("deptCd", ""); // 부서코드
 
     						// ===== START OF : 사용자 이름, 부서정보 확인
     		    			UserVO userVo = new UserVO();
@@ -249,8 +249,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		        for (String key : mvMap.keySet()){
 		            if ("privacyValue".equals(key)) { // 사용자 개인정보 확인 (값 전달 방식이니 바로 등록)
 		            	pvMap = this.getPrivacy(mvMap.get(key).toString());
-				        userLogService.insertUserPrivacyLog(userLogkey, pvMap); // 사용자 개인정보 확인 기록
-				        continue;
+						userLogService.insertUserPrivacyLog(userLogkey, pvMap); // 사용자 개인정보 확인 기록
+						continue;
 		            }
 		            if ("privacyItem".equals(key)) { // 사용자 개인정보 확인 키 확인 (필드명 전달 방식이니 필드를 찾고 값 확인)
 		        		piMap = this.getPrivacy(mvMap.get(key).toString()); // 개인정보가 들어간 필드명 확인
@@ -261,10 +261,10 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		    		            if (mvMap.get(key2) instanceof Map || mvMap.get(key2) instanceof HashMap) {
 		    		            	pvMap = this.getPrivacyValue(piMap, (Map<String,?>)mvMap.get(key2));
 		    		            } else if (mvMap.get(key2) instanceof List) {
-		    			          	pvMap = this.getPrivacyValue(piMap, (List)mvMap.get(key2));
+		    		            	pvMap = this.getPrivacyValue(piMap, (List)mvMap.get(key2));
 		    		            }
 		    		            if (pvMap != null && pvMap.size() > 0) { // 개인정보노출 정보 존재시, insert
-				    		        userLogService.insertUserPrivacyLog(userLogkey, pvMap); // 사용자 개인정보 확인 기록
+		    		            	userLogService.insertUserPrivacyLog(userLogkey, pvMap); // 사용자 개인정보 확인 기록
 		    		            }
 		    	        	}
 		    	        	continue;
