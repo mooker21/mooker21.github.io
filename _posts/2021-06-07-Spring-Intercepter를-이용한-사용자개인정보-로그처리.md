@@ -101,6 +101,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 	private UserLogService userLogService;
 
     /**
+     * preHandle
+     *
      * 세션에 계정정보(UserVO)가 있는지 여부로 인증 여부를 체크.
      * 계정정보(UserVO)가 없다면, 로그인 페이지로 이동.
      * @throws CommException
@@ -135,32 +137,53 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     						// 그룹코드 확인
     						String grpCd = result.getGrpCd();
 
+    						if ("T".equals(grpCd)) {
+    							grpCd = "TRADER";
+    						} else if ("C".equals(grpCd)) {
+    							grpCd = "CUSTOMER";
+    						} else if ("B".equals(grpCd)) {
+    							grpCd = "BUYER";
+    						} else if("A".equals(grpCd)) {
+    							grpCd = "AGENCY";
+    						} else if("I".equals(grpCd)) {
+    							grpCd = "INTERPRETER";
+    						}
+
     						// 세션 재등록
     						httpSession.setAttribute("userId", result.getUserId());
     						httpSession.setAttribute("grpCd", grpCd);
-    						httpSession.setAttribute("userNm", "");
-    						httpSession.setAttribute("deptCd", ""); // 부서코드
+							httpSession.setAttribute("userNm", "");
+							httpSession.setAttribute("userNmEng", ""); // 사용자명(영문)
+							httpSession.setAttribute("deptCd", ""); // 부서코드
+							httpSession.setAttribute("ftrdctrYn", ""); // 무역관 여부
 
-    						// ===== START OF : 사용자 이름, 부서정보 확인
-    		    			UserVO userVo = new UserVO();
-    		    			String userId = result.getUserId();
-    		    			userVo.setUserId(userId);
+							// ===== START OF : 사용자 이름, 부서정보 확인
+							UserVO userVo = new UserVO();
+							String userId = result.getUserId();
+    						userVo.setUserId(userId);
     						UserVO deptInfo = userService.selectUserDeptInfo(userVo);
     						if (deptInfo != null) {
     							String userNm = deptInfo.getUserNm();
-								httpSession.setAttribute("userNm", userNm);
-								httpSession.setAttribute("userNmEng", userNm); // 사용자명(영문)
-								httpSession.setAttribute("deptCd", ""); // 부서코드
+    							if ("TRADER".equals(grpCd)) { // 무역관
+    								httpSession.setAttribute("userNm", userNm);
+    								httpSession.setAttribute("userNmEng", deptInfo.getUserNmEng()); // 사용자명(영문)
+    								httpSession.setAttribute("deptCd", deptInfo.getDeptCd()); // 부서코드
+    								httpSession.setAttribute("ftrdctrYn", deptInfo.getFtrdctrYn()); // 무역관 여부
+    							} else { // 대행사, 통역사
+    								httpSession.setAttribute("userNm", userNm);
+    								httpSession.setAttribute("userNmEng", userNm); // 사용자명(영문)
+    								httpSession.setAttribute("deptCd", ""); // 부서코드
+    								httpSession.setAttribute("ftrdctrYn", "N"); // 무역관 여부
+    							}
     						}
     					}
     					// ===== END OF : 사용자 이름, 부서정보 확인
 
     					// ===== START OF : 사용자 권한 확인
-
-    					// 권한자만 Admin Page 접근 가능
+    					// Trader만 Admin Page 접근 가능
     					String requestURI = request.getRequestURI().toLowerCase();
     					if (requestURI.contains("/admin/") || requestURI.contains("/admin.do")) {
-    						if (!"admin".equals(httpSession.getAttribute("grpCd"))) {
+    						if (!"TRADER".equals(httpSession.getAttribute("grpCd"))) {
     	    					// 로그 아웃 처리
     	    					ModelAndView modelAndView = new ModelAndView("redirect:/logoutCheck.do");
     	    	                throw new ModelAndViewDefiningException(modelAndView);
@@ -198,9 +221,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             //return false;
 			ModelAndView modelAndView = new ModelAndView("redirect:/logoutCheck.do");
             throw new ModelAndViewDefiningException(modelAndView);
+
         }
 
-        //LOGGER.debug(String.format("preHandle %s ", String.valueOf(handler)));
 		return true;
     }
 
@@ -281,6 +304,84 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     }
 
 
+    /**
+     * postHandle
+     *
+     * 사용자 접속, 개인정보노출 로그 기록
+     */
+    //@SuppressWarnings("unchecked")
+	@Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws ModelAndViewDefiningException, CommException {
+
+    	// 사용자 접속, 개인정보노출 로그 기록
+    	try {
+    		// === START OF : 사용자 접속 기록 ===
+    		Map<String, String> map = new HashMap<String,String>();
+	    	HandlerMethod method = (HandlerMethod) handler;
+	    	String name = method.getMethod().getName().toLowerCase();
+
+	    	// method의 이름으로 처리형태 구분
+	    	if (name.contains("view") || name.contains("detail") || name.contains("search") || name.contains("list")) {
+	    		map.put("action", "R"); // 조회
+	    	} else if (name.contains("update")) {
+	    		map.put("action", "U"); // 수정
+	    	} else if (name.contains("insert") || name.contains("add") || name.contains("reg")) {
+	    		map.put("action", "C"); // 등록
+	    	} else if (name.contains("del") || name.contains("delete")) {
+	    		map.put("action", "D"); // 삭제
+	    	} else if (name.contains("down") || name.contains("exceldown")) {
+	    		map.put("action", "L"); // Download
+	    	} else if (name.contains("upload") || name.contains("excelupload")) {
+	    		map.put("action", "F"); // Upload
+	    	} else {
+	    		map.put("action", "R"); // 조회
+	    	}
+
+	    	map.put("userId", request.getSession().getAttribute("userId").toString());
+	    	map.put("url", request.getRequestURI());
+	    	map.put("ip", this.getClientIP(request));
+	    	long userLogkey = userLogService.insertUserAccessLog(map); // 사용자 접속로그 기록
+	    	// === END OF : 사용자 접속 기록 ===
+
+	    	// === START OF : 개인정보 노출 기록 ===
+	    	if (modelAndView != null) {
+		    	Map<String, Object> mvMap = modelAndView.getModel();
+		    	Map<String, String> pvMap = null;
+		    	Map<String, String> piMap = null;
+		        for (String key : mvMap.keySet()){
+		            if ("privacyValue".equals(key)) { // 사용자 개인정보 확인 (값 전달 방식이니 바로 등록)
+		            	pvMap = this.getPrivacy(mvMap.get(key).toString());
+				        userLogService.insertUserPrivacyLog(userLogkey, pvMap); // 사용자 개인정보 확인 기록
+				        continue;
+		            }
+		            if ("privacyItem".equals(key)) { // 사용자 개인정보 확인 키 확인 (필드명 전달 방식이니 필드를 찾고 값 확인)
+		        		piMap = this.getPrivacy(mvMap.get(key).toString()); // 개인정보가 들어간 필드명 확인
+		    	        if (piMap != null) { // 개인정보 노출 필드 존재시..
+
+		    	        	for (String key2 : mvMap.keySet()){
+		    		            pvMap = null;
+		    		            if (mvMap.get(key2) instanceof Map || mvMap.get(key2) instanceof HashMap) {
+		    		            	pvMap = this.getPrivacyValue(piMap, (Map<String,?>)mvMap.get(key2));
+		    		            } else if (mvMap.get(key2) instanceof List) {
+		    			          	pvMap = this.getPrivacyValue(piMap, (List)mvMap.get(key2));
+		    		            }
+		    		            if (pvMap != null && pvMap.size() > 0) { // 개인정보노출 정보 존재시, insert
+				    		        userLogService.insertUserPrivacyLog(userLogkey, pvMap); // 사용자 개인정보 확인 기록
+		    		            }
+		    	        	}
+		    	        	continue;
+		    	        }
+
+		            }
+		        }
+	    	}
+	        // === END OF : 개인정보 노출 기록 ===
+
+	    } finally {
+	    }
+    }
+
+
 	/**
      * Privacy 항목을 HashMap으로 변환
      * @param piStr
@@ -293,9 +394,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     	String[] tmp2 = null;
     	try {
     		if (piStr != null) {
-	//			piMap = Arrays.asList(piStr.split(",")).stream().collect(
-	//					Collectors.toMap(e -> (e.contains(":") ? e.split(":")[1] : ""), e -> e.split(":")[0]));
-	//			piMap.remove("");
+//				piMap = Arrays.asList(piStr.split(",")).stream().collect(
+//				Collectors.toMap(e -> (e.contains(":") ? e.split(":")[1] : ""), e -> e.split(":")[0]));
+//				piMap.remove("");
     			piMap = new HashMap<String,String>();
 	    		tmp = piStr.split(",");
 
@@ -338,7 +439,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 	}
 
     /**
-     * ArrayList<Map>에서 개인정보 노출 관련 필드 filter후  Map으로 생성
+     * ArrayList<Map>에서 개인정보 노출 관련 필드 filter후 Map으로 생성
      * @param fMap 필터 Map
      * @param sList 소스 List
      * @return
@@ -361,6 +462,31 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			throw new CommException(e.getMessage(), "PatternSyntaxException");
 		}
 		return rMap;
+	}
+
+	/**
+	 * 클라이언트 IP 확인
+	 * @param request
+	 * @return
+	 */
+    private String getClientIP(HttpServletRequest request) {
+	    String ip = request.getHeader("X-Forwarded-For");
+	    if (EgovStringUtil.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)) {
+	        ip = request.getHeader("Proxy-Client-IP");
+	    }
+	    if (EgovStringUtil.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)) {
+	        ip = request.getHeader("WL-Proxy-Client-IP");
+	    }
+	    if (EgovStringUtil.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)) {
+	        ip = request.getHeader("HTTP_CLIENT_IP");
+	    }
+	    if (EgovStringUtil.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)) {
+	        ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+	    }
+	    if (EgovStringUtil.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)) {
+	        ip = request.getRemoteAddr();
+	    }
+	    return ip;
 	}
 
 }
