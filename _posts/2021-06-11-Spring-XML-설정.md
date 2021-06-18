@@ -94,7 +94,7 @@ public class TestBean1 {
 }
 ```
 
-생성자 주입
+### 생성자 주입
 
 ```xml
 <bean id='obj7' class='com.study.beans.TestBean3' autowire="constructor">
@@ -145,9 +145,94 @@ public class TestBean3 {
 }
 ```
 
+### 외부라이브러리 생성자 주입 Sample
+
+```xml
+<!-- sample Util 설정 -->
+<bean id="sampleUtil" class="common.serivce.SampleUtil" autowire="constructor">
+	<constructor-arg value='sample.com' index='0' />  <!-- domainName -->
+	<constructor-arg value='123.213.123.123' index='1' /> <!-- Ip -->
+	<constructor-arg value='9003' index='2' type='int' /> <!-- Port -->
+	<constructor-arg value='GOODMORNING' index='3' /> <!-- Type -->
+</bean>
+```
+
+```java
+public class SampleUtil {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(SampleUtil.class);
+
+	private ExternalLib externalLib = null;
+	private String domainName; 	// 도메인명
+	private String ip; 			// IP
+	private int port; 			// IP Port
+	private String type;		// 형태
+	private String envMode;		// 환경 모드 (local, dev, real)
+
+	/** 생성자
+	 * @param domainName 도메인명
+	 * @param ip 첫번째 IP
+	 * @param port IP Port
+	 * @throws CommException
+	 */
+	public SampleUtil(String domainName, String ip, int port, String type) throws CommException {
+		super();
+		this.domainName = domainName;
+		this.ip = ip;
+		this.port = port;
+		this.Type = Type;
+		this.envMode = System.getProperty("spring.profiles.active"); // 현재 서버 환경
+
+		try {
+			if("dev".equals(this.envMode) || "real".equals(this.envMode)) {
+
+				// 외부 라이브러리 호출
+				externalLib = ExternalLib.getSampleInstUp(this.domainName, this.ip, this.port);
+
+			}
+		} catch (Exception e) {
+			throw new CommException(e);
+		}
+	}
+
+	public String getDomainName() {
+		return domainName;
+	}
+
+	public void setDomainName(String domainName) {
+		this.domainName = domainName;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void SetType(String type) {
+		this.type = type;
+	}
+
+}
+```
+
 ## DI(Dependency Injection) 설정
 
-생성자 주입
+### 생성자 주입
 
 ```xml
 <bean id="studentDao" class="com.member.dao.StudentDao" ></bean>
@@ -276,8 +361,4 @@ type 설정
 		<value type='int'>300</value>
 	</list>
 </property>
-```
-
-```
-
 ```
