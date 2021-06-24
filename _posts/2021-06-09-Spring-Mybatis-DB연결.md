@@ -70,6 +70,9 @@ pom.xml 에 MyBatis Sql 콘솔로그 출력을 위한 log4jdbc-log4j2 라이브�
 <bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession" destroy-method="clearCache">
   <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
 </bean>
+
+<mybatis-spring:scan base-package="com.member.dao"/>
+
 ```
 
 ### 테이블 생성
@@ -230,20 +233,26 @@ package com.member.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Select;
+
 import com.member.dto.MemberVO;
 
 public interface MemberDAO {
 
+	@Select("SELECT NOW()")
+	public String getTime();
+
 	public List<MemberVO> selectMember() throws Exception;
 
 }
+
 ```
 
 **src/main/resources/mappers** 아래 **memberMapper.xml** 파일 생성
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.member.dao.MemberDAO">
 
