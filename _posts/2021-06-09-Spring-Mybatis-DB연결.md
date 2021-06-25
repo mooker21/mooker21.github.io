@@ -26,7 +26,7 @@ last_modified_at: 2021-06-09T00:00:00+08:00
 
 **Tip:** 지난 자료 참고에서 제일 하단 **POM 최종정리**를 확인  
 그외 **root-context.xml**, **mybatis-config.xml** 설정도 확인 가능  
-[Spring Mybatis 연결 jUnit 테스트]({{ "2021-06-01-Spring-Mybatis-연결-JUnit-테스트.md" }}){:target="\_blank"}
+[Spring Mybatis 연결 jUnit 테스트]({{ "" | relative_url }}{{% post_url 2021-06-01-Spring-Mybatis-연결-JUnit-테스트.md}}){:target="\_blank"}
 {: .notice--info}
 
 pom.xml 에 MyBatis Sql 콘솔로그 출력을 위한 log4jdbc-log4j2 라이브러리 추가
