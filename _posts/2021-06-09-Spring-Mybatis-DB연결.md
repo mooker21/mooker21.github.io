@@ -41,7 +41,98 @@ pom.xml 에 MyBatis Sql 콘솔로그 출력을 위한 log4jdbc-log4j2 라이브�
 </dependency>
 ```
 
-### root-context.xml 수정
+### `web.xml` 수정
+
+filter 추가
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/root-context.xml</param-value>
+	</context-param>
+
+	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- Processes application requests -->
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+</web-app>
+```
+
+### `servlet-context.xml` 수정
+
+<context:component-scan base-package="com.member.controller" /> 추가
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:beans="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+
+    <!-- Enables the Spring MVC @Controller programming model -->
+    <annotation-driven />
+
+    <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+    <resources mapping="/resources/**" location="/resources/" />
+
+    <!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+    <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    	<beans:property name="prefix" value="/WEB-INF/views/" />
+    	<beans:property name="suffix" value=".jsp" />
+    </beans:bean>
+
+    <context:component-scan base-package="com.member.controller" />
+
+</beans:beans>
+```
+
+### `root-context.xml` 수정
 
 1. DataSource 부분은 Sql 로그 확인을 위해 log4jdbc 설정 추가
 
@@ -71,7 +162,8 @@ pom.xml 에 MyBatis Sql 콘솔로그 출력을 위한 log4jdbc-log4j2 라이브�
   <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
 </bean>
 
-<mybatis-spring:scan base-package="com.member.dao"/>
+<context:component-scan base-package="com.member.dao"></context:component-scan>
+<context:component-scan base-package="com.member.service"></context:component-scan>
 
 ```
 
@@ -179,10 +271,11 @@ logback.xml
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
 <configuration>
-    <typeAliases>
-		<typeAlias alias="memberVO" type="com.member.dto.MemberVO"/>
-    </typeAliases>
+	<typeAliases>
+		<typeAlias type="com.member.dto.MemberVO" alias="memberVO"/>
+	</typeAliases>
 </configuration>
 ```
 
@@ -245,6 +338,37 @@ public interface MemberDAO {
 	public List<MemberVO> selectMember() throws Exception;
 
 }
+```
+
+**MemberDAOImpl.java** MemberDAOImpl 파일 생성
+
+```java
+package com.member.dao;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
+
+import com.member.dto.MemberVO;
+
+@Repository
+public class MemberDAOImpl implements MemberDAO {
+
+	@Inject
+	private SqlSession sqlSession;
+
+	private static final String Namespace = "com.member.dao.MemberDAO.memberMapper";
+
+	@Override
+	public List<MemberVO> selectMember() throws Exception {
+
+		return sqlSession.selectList(Namespace+".selectMember");
+	}
+
+}
 
 ```
 
@@ -254,12 +378,12 @@ public interface MemberDAO {
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.member.dao.MemberDAO">
+<mapper namespace="com.member.dao.MemberDAO.memberMapper">
 
     <select id="selectMember" resultType="memberVO">
-        SELECT USER_ID
-        	, USER_PW
-        	, USER_NM
+        SELECT USER_ID AS ID
+        	, USER_PW AS PW
+        	, USER_NAME AS NAME
         FROM TB_TEST
     </select>
 
@@ -282,6 +406,7 @@ public interface MemberService {
     public List<MemberVO> selectMember() throws Exception;
 
 }
+
 ```
 
 **MemberServiceImpl.java** 파일 생성
@@ -314,8 +439,61 @@ public class MemberServiceImpl implements MemberService {
 
 ### Controller 파일 생성
 
-**MemberController.java** 파일 생성
+**HomeController.java** 파일 생성
 
 ```java
+package com.member.controller;
 
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.member.dto.MemberVO;
+import com.member.service.MemberService;
+
+/**
+ * Handles requests for the application home page.
+ */
+@Controller
+public class HomeController {
+
+	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+
+    @Inject
+    private MemberService memberService;
+
+	/**
+	 * Simply selects the home view to render by returning its name.
+	 */
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String home(Locale locale, Model model) throws Exception {
+		logger.info("Welcome home! The client locale is {}.", locale);
+
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+
+		String formattedDate = dateFormat.format(date);
+
+		model.addAttribute("serverTime", formattedDate );
+
+		// 멤버 조회
+        List<MemberVO> memberList = memberService.selectMember();
+        model.addAttribute("memberList", memberList);
+
+		return "home";
+	}
+
+}
 ```
+
+![image](https://user-images.githubusercontent.com/83876951/123401029-57a94100-d5e1-11eb-85d2-4ba0f14b75f5.png)

@@ -176,6 +176,7 @@ com.mysql.cj.jdbc.ConnectionImpl@647fd8ce
 	<groupId>org.springframework</groupId>
 	<artifactId>spring-test</artifactId>
 	<version>${org.springframework-version}</version>
+	<scope>test</scope>
 </dependency>
 
 <!-- https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp -->
@@ -404,6 +405,7 @@ public class MyBatisTest {
 	<groupId>org.springframework</groupId>
 	<artifactId>spring-core</artifactId>
 	<version>${org.springframework-version}</version>
+	<scope>test</scope>
 </dependency>
 
 <dependency>
