@@ -1,5 +1,5 @@
 ---
-title: Spring Mybatis DB 연결
+title: Spring Mybatis DB 연결 2
 layout: single
 author_profile: true
 read_time: true
@@ -13,11 +13,11 @@ categories:
 toc: true
 toc_sticky: true
 toc_label: 목차
-description: Spring Mybatis DB 연결
-article_tag1: Spring Mybatis DB 연결
+description: Spring Mybatis DB 연결 2
+article_tag1: Spring Mybatis DB 연결 2
 article_tag2:
 article_tag3:
-article_section: Spring Mybatis DB 연결
+article_section: Spring Mybatis DB 연결 2
 meta_keywords: Java, Spring
 last_modified_at: 2021-06-09T00:00:00+08:00
 ---
@@ -27,6 +27,8 @@ last_modified_at: 2021-06-09T00:00:00+08:00
 **Tip:** 지난 자료 참고에서 제일 하단 **POM 최종정리**를 확인  
 그외 **root-context.xml**, **mybatis-config.xml** 설정도 확인 가능  
 [Spring Mybatis 연결 jUnit 테스트]({{ "" | relative_url }}{{% post_url 2021-06-01-Spring-Mybatis-연결-JUnit-테스트.md}}){:target="\_blank"}
+{: .notice--info}
+[Spring Mybatis DB연결 1]({{ "" | relative_url }}{{% post_url 2021-06-09-Spring-Mybatis-DB연결-#1.md}}){:target="\_blank"}
 {: .notice--info}
 
 pom.xml 에 MyBatis Sql 콘솔로그 출력을 위한 log4jdbc-log4j2 라이브러리 추가
@@ -487,8 +489,8 @@ public class HomeController {
 		model.addAttribute("serverTime", formattedDate );
 
 		// 멤버 조회
-        List<MemberVO> memberList = memberService.selectMember();
-        model.addAttribute("memberList", memberList);
+		List<MemberVO> memberList = memberService.selectMember();
+		model.addAttribute("memberList", memberList);
 
 		return "home";
 	}

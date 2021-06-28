@@ -25,7 +25,7 @@ last_modified_at: 2021-06-03T00:00:00+08:00
 
 ## jsonView
 
-pom.xml 설정
+### pom.xml 설정
 
 ```xml
 <!-- Ajax -->
@@ -48,7 +48,7 @@ pom.xml 설정
 </dependency>
 ```
 
-dispatcherServlet.xml 설정
+### dispatcherServlet.xml 설정
 
 ```xml
 <!-- jsonView -->
@@ -58,7 +58,9 @@ dispatcherServlet.xml 설정
 </bean>
 ```
 
-pom.xml 설정
+### Java 소스 코드
+
+ModelAndView.setViewName("jsonView")를 통해 json형태 return.
 
 ```java
 @RequestMapping(value="/jsonViewTest.do")
@@ -73,9 +75,9 @@ public ModelAndView jsonViewTest(@RequestParam Map<String, Object> params, HttpS
 }
 ```
 
-ModelAndView.setViewName("jsonView")를 통해 json형태 return.
+### 결과 형태
 
-결과형태
+result 와 같이 warping 이 됨.
 
 ```json
 {
@@ -87,6 +89,8 @@ ModelAndView.setViewName("jsonView")를 통해 json형태 return.
 ```
 
 ## @ResponsBody 어노테이션을 이용하는 방법
+
+### pom.xml 설정
 
 @ResponsBody 어노테이션을 사용시 다음의 pom 설정이 필요 (Spring 4.x 버전일 경우)
 
@@ -113,13 +117,15 @@ ModelAndView.setViewName("jsonView")를 통해 json형태 return.
 
 [참고]({{ "https://www.egovframe.go.kr/home/qainfo/qainfoRead.do?pagerOffset=0&searchKey=all&searchValue=Spring+4.1.2+jackson&menuNo=69&qaId=QA_00000000000016748" }}){:target="\_blank"}
 
-@ResponsBody 어노테이션을 사용시 다음의 pom 설정이 필요 (Spring 3.x 버전일 경우)
+### bean 설정
+
+@ResponsBody 어노테이션을 사용시 다음의 bean 설정이 필요 (Spring 3.x 버전일 경우)
 
 ```xml
 <bean id="jsonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
 ```
 
-Java 소스 코드
+### Java 소스 코드
 
 ```java
 @RequestMapping(value="/responseBodyTest")
@@ -132,7 +138,7 @@ public List<Map<String, Object>> responseBodyTest(@RequestParam Map<String, Obje
 }
 ```
 
-결과형태
+### 결과형태
 
 ```json
 [

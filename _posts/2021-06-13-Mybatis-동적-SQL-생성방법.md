@@ -55,7 +55,7 @@ last_modified_at: 2021-06-13T00:00:00+08:00
 
 ### trim
 
-조건에 따라 SQL이 반환되면 SQL문의 앞부분에서 `prefixOverrides`에 지정된 문자열과 일치하는 문자열을 제거하고 `prefix`로 지정한 접두어를 붙인다.
+조건에 따라 SQL이 반환되면 SQL문의 앞부분에서 `prefixOverrides`에 지정된 문자열과 일치하는 문자열을 제거하고 `prefix`로 지정한 접두어를 붙임.
 
 ```xml
 <trim prefix="접두어" prefixOverrides="문자열|문자열">
@@ -81,7 +81,7 @@ SET절의 항목이 여러 개일 경우 자동으로 콤마(,)를 붙임.
 
 ```xml
 <update id="update" parameterType="map">
-    update PROJECTS
+    UPDATE PROJECTS
     <set>
         <if test="title != null">PNAME=#{title},</if>
         <if test="content != null">CONTENT=#{content},</if>
@@ -90,17 +90,17 @@ SET절의 항목이 여러 개일 경우 자동으로 콤마(,)를 붙임.
         <if test="state != null">STATE=#{state},</if>
         <if test="tags != null">TAGS=#{tags},</if>
     </set>
-    where PNO = #{no}
+    WHERE PNO = #{no}
 </update>
 ```
 
 startDate, endDate만 전달되면 다음과 같이 동적 SQL문이 생성
 
 ```sql
-update PROJECTS
+UPDATE PROJECTS
 SET STA_DATE = #{startDate},
      END_DATE = #{endDate}
-where PNO = #{no}
+WHERE PNO = #{no}
 ```
 
 ### foreach
@@ -143,7 +143,7 @@ String[] array;
 <select id="" ...>
 	SELECT *
 	FROM table
-	where id IN
+	WHERE id IN
 	<foreach collection="array" item="map" index="i" separator="," open="(" close=")">
 		#{map[i]}
 	</foreach>
