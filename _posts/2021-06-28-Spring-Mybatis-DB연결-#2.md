@@ -1,5 +1,5 @@
 ---
-title: Spring Mybatis DB 연결 2
+title: Spring Mybatis DB 연결 1
 layout: single
 author_profile: true
 read_time: true
@@ -13,23 +13,33 @@ categories:
 toc: true
 toc_sticky: true
 toc_label: 목차
-description: Spring Mybatis DB 연결 2
-article_tag1: Spring Mybatis DB 연결 2
+description: Spring Mybatis DB 연결 1
+article_tag1: Spring Mybatis DB 연결 1
 article_tag2:
 article_tag3:
-article_section: Spring Mybatis DB 연결 2
+article_section: Spring Mybatis DB 연결 1
 meta_keywords: Java, Spring
 last_modified_at: 2021-06-09T00:00:00+08:00
 ---
 
-### 기본설정 (Log설정)
-
 **Tip:** 지난 자료 참고에서 제일 하단 **POM 최종정리**를 확인  
 그외 **root-context.xml**, **mybatis-config.xml** 설정도 확인 가능  
-[Spring Mybatis 연결 jUnit 테스트]({{ "" | relative_url }}{{% post_url 2021-06-01-Spring-Mybatis-연결-JUnit-테스트.md}}){:target="\_blank"}
+[Spring Mybatis 연결 jUnit 테스트]({{ "" | relative_url }}{{% post_url 2021-06-01-Spring-Mybatis-연결-JUnit-테스트.md}}){:target="\_blank"}  
+[Spring Mybatis DB 연결 1]({{ "" | relative_url }}{{% post_url 2021-06-09-Spring-Mybatis-DB연결-#1.md}}){:target="\_blank"}
 {: .notice--info}
-[Spring Mybatis DB연결 1]({{ "" | relative_url }}{{% post_url 2021-06-09-Spring-Mybatis-DB연결-#1.md}}){:target="\_blank"}
+
+## 1. 최종 샘플 파일
+
+[최종샘플파일(SpringTest_20210628.zip)]({{ site.baseurl }}/assets/files/2021/SpringTest_20210628.zip){:target="\_blank"}
 {: .notice--info}
+
+## 2. 현재 페이지 최종 파일 생성 참고
+
+![image](https://user-images.githubusercontent.com/83876951/123401029-57a94100-d5e1-11eb-85d2-4ba0f14b75f5.png)
+
+## 3. 시작
+
+### 기본설정 (Log설정)
 
 pom.xml 에 MyBatis Sql 콘솔로그 출력을 위한 log4jdbc-log4j2 라이브러리 추가
 
@@ -497,5 +507,3 @@ public class HomeController {
 
 }
 ```
-
-![image](https://user-images.githubusercontent.com/83876951/123401029-57a94100-d5e1-11eb-85d2-4ba0f14b75f5.png)

@@ -1,5 +1,5 @@
 ---
-title: Spring Mybatis DB 연결
+title: Spring Mybatis DB 연결 1
 layout: single
 author_profile: true
 read_time: true
@@ -13,11 +13,11 @@ categories:
 toc: true
 toc_sticky: true
 toc_label: 목차
-description: Spring Mybatis DB 연결
-article_tag1: Spring Mybatis DB 연결
+description: Spring Mybatis DB 연결 1
+article_tag1: Spring Mybatis DB 연결 1
 article_tag2:
 article_tag3:
-article_section: Spring Mybatis DB 연결
+article_section: Spring Mybatis DB 연결 1
 meta_keywords: Java, Spring
 last_modified_at: 2021-06-09T00:00:00+08:00
 ---
@@ -27,18 +27,16 @@ last_modified_at: 2021-06-09T00:00:00+08:00
 [Spring Mybatis 연결 jUnit 테스트]({{ "" | relative_url }}{{% post_url 2021-06-01-Spring-Mybatis-연결-JUnit-테스트.md}}){:target="\_blank"}
 {: .notice--info}
 
-## 최종 샘플 파일
+## 1. 최종 샘플 파일
 
-<a href="{{ site.baseurl }}/assets/files/2021/SpringTest_20210628.zip">SpringTest_20210628.zip</a>
-
-[최종샘플파일]({{ site.baseurl }}/assets/files/2021/SpringTest_20210628.zip){:target="\_blank"}
+[최종샘플파일(SpringTest_20210628.zip)]({{ site.baseurl }}/assets/files/2021/SpringTest_20210628.zip){:target="\_blank"}
 {: .notice--info}
 
-## 현재 페이지 최종 파일 생성 참고
+## 2. 현재 페이지 최종 파일 생성 참고
 
 ![image](https://user-images.githubusercontent.com/83876951/123401029-57a94100-d5e1-11eb-85d2-4ba0f14b75f5.png)
 
-## 시작
+## 3. 시작
 
 ### 기본설정 (Log설정)
 

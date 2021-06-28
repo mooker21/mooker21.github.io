@@ -1,5 +1,5 @@
 ---
-title: Spring Mybatis 연결
+title: Spring Mybatis 연결 및 JUnit 테스트
 layout: single
 author_profile: true
 read_time: true
@@ -13,11 +13,11 @@ categories:
 toc: true
 toc_sticky: true
 toc_label: 목차
-description: Spring Mybatis 연결
-article_tag1: Spring Mybatis 연결
+description: Spring Mybatis 연결 및 JUnit 테스트
+article_tag1: Spring Mybatis 연결 및 JUnit 테스트
 article_tag2:
 article_tag3:
-article_section: Spring Mybatis 연결
+article_section: Spring Mybatis 연결 및 JUnit 테스트
 meta_keywords: Java, Spring
 last_modified_at: 2021-06-07T00:00:00+08:00
 ---
