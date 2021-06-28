@@ -55,7 +55,7 @@ last_modified_at: 2021-06-13T00:00:00+08:00
 
 ### trim
 
-`<where>` 안의 조건식에서 일치하는 조건이 있으면 WHERE절을 만들어 반환하고 없으면 만들지 않는다.
+조건에 따라 SQL이 반환되면 SQL문의 앞부분에서 `prefixOverrides`에 지정된 문자열과 일치하는 문자열을 제거하고 `prefix`로 지정한 접두어를 붙인다.
 
 ```xml
 <trim prefix="접두어" prefixOverrides="문자열|문자열">
