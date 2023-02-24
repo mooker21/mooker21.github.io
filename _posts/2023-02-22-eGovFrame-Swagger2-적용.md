@@ -240,3 +240,4 @@ public class RequestApiDngVO {
     // Getter, Setter 설정 해주면 됨
 }
 ```
+
