@@ -70,4 +70,3 @@ Generation시 DB 테이블을 temp로 생성하여 만들고, generation 이 후
 
 1. Controller Package: site.stats.web
 2. JSP Floder : /site/src/main/webapp/WEB-INF/jsp/site/stats
-
