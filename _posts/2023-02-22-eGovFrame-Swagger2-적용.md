@@ -145,9 +145,14 @@ public class SwaggerConfig {
 <security:http pattern="/v2/api-docs" security="none"/>
 <security:http pattern="/swagger-resources/**" security="none"/>
 <security:http pattern="/webjars/**" security="none"/>
-<security:http pattern="/swagger-ui.html" security="none"/>
 <security:http pattern="/swagger-ui/**" security="none"/>
+<!-- Swagger3에서는 다음과 같음 -->
+<security:http pattern="/swagger-ui.html" security="none"/> 
 ```
+라이브러리를 확인하면 사용 파일들을 확인 가능.
+
+![image](https://user-images.githubusercontent.com/83876951/221448983-45943fe5-906d-4f72-9861-54737d5bba50.png)
+
 
 ## Controller 처리 방법
 
