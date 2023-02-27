@@ -220,8 +220,8 @@ import io.swagger.annotations.ApiModelProperty;
 public class RequestApiDngVO {
 	
 	@ApiModelProperty(value = "아이디", required = true, example = "", dataType = "string")
-	@JsonProperty("cstrnId") // Json 처리시 추가 필요
-	private String cstrnId;
+	@JsonProperty("userId") // Json 처리시 추가 필요
+	private String userId;
 	
 	@ApiModelProperty(value = "구분코드1", required = true, example = "0500", dataType = "string")
 	@JsonProperty("gubunCd1")
@@ -297,9 +297,9 @@ import sems.rest.service.vo.SafeDeviceTagDataInfVO;
 //@RestController
 //@RequestMapping("/rest-api/test")
 //@SessionAttributes(types=SessionVO.class)
-public class RestApiTestManageController {
+public class RestApiTestController {
 	
-    private static final Logger LOGGER = LoggerFactory.getLogger(RestApiTestManageController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestApiTestController.class);
 
     
     @ApiModelProperty(value = "유저 이름",  dataType = "string")
