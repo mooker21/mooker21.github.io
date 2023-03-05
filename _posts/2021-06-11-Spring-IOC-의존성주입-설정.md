@@ -1,5 +1,5 @@
 ---
-title: Spring XML 설정 방법
+title: Spring IoC 의존성주입 설정 방법
 layout: single
 author_profile: true
 read_time: true
@@ -10,15 +10,16 @@ popular: true
 categories:
   - Java
   - Spring
+  - Ioc
 toc: true
 toc_sticky: true
 toc_label: 목차
-description: Spring XML 설정 방법
-article_tag1: Spring XML 설정 방법
+description: Spring IoC 의존성주입 설정 방법
+article_tag1: Spring IoC 의존성주입 설정 방법
 article_tag2:
 article_tag3:
-article_section: Spring XML 설정 방법
-meta_keywords: Java, Spring
+article_section: Spring IoC 의존성주입 설정 방법
+meta_keywords: Java, Spring, IoC
 last_modified_at: 2021-06-11T00:00:00+08:00
 ---
 
@@ -49,6 +50,9 @@ anotation 설정을 사용하기 위한 포맷
 </beans>
 ```
 
+[Spring Annotation 설정 정리]({{ "" | relative_url }}{{% post_url 2021-06-11-Spring-Annotation-설정.md}}){:target="\_blank"}
+{: .notice--info}
+
 ## bean 설정 옵션
 
 ```xml
@@ -63,9 +67,18 @@ anotation 설정을 사용하기 위한 포맷
 - init-method : 빈 객체가 생성될때 호출할 메소드 설정
 - destroy-method : 빈 객체가 소멸될때 호출할 메소드 설정
 
-## 자동 주입 설정 - autowire 속성
+## Autowiring (자동 주입 설정 - autowire)
 
-참조타입(byName), 타입(byType)
+* Spring IoC container는 서로 관련된 Bean 객체를 자동으로 엮어줄 수 있다.
+* 자동엮기(autowiring)는 각각의 bean 단위로 설정되며, 자동엮기 기능을 사용하면 <property/>나 <constructorarg/>를 지정할 필요가 없어지므로, 타이핑일 줄일 수 있다.
+* 자동엮기에는 5가지 모드가 있으며, XML 기반 설정에서는 <bean/> element의 'autowire' attribute를 사용하여 설정
+할 수 있다.
+
+[Spring Annotation 설정 정리]({{ "" | relative_url }}{{% post_url 2021-06-11-Spring-Annotation-설정.md}}){:target="\_blank"}
+{: .notice--info}
+
+### 참조타입(byName), 타입(byType)
+
 getter, setter 설정 필요
 
 ```xml
@@ -361,4 +374,122 @@ type 설정
 		<value type='int'>300</value>
 	</list>
 </property>
+```
+
+```xml
+<bean id="more" class="com.member.service.comInformationService">
+	<property name="developers">
+		<list>
+			<value>Cheney.</value>
+			<value>Eloy.</value>
+			<value>Jasper.</value>
+			<value>Dillon.</value>
+			<value>Kian.</value>
+		</list>
+	</property>
+</bean>
+
+<bean id="moreComplexObject" class="example.ComplexObject">
+	<!-- results in a setAdminEmails(java.util.Properties) call -->
+	<property name="adminEmails">
+		<props>
+			<prop key="administrator">administrator@example.org</prop>
+			<prop key="support">support@example.org</prop>
+			<prop key="development">development@example.org</prop>
+		</props>
+	</property>
+	<!-- results in a setSomeList(java.util.List) call -->
+	<property name="someList">
+		<list>
+			<value>a list element followed by a reference</value>
+			<ref bean="myDataSource" />
+		</list>
+	</property>
+	<!-- results in a setSomeMap(java.util.Map) call -->
+	<property name="someMap">
+		<map>
+			<entry>
+				<key><value>an entry</value></key>
+				<value>just some string</value>
+			</entry>
+			<entry>
+				<key><value>a ref</value></key>
+				<ref bean="myDataSource" />
+			</entry>
+		</map>
+	</property>
+	<!-- results in a setSomeSet(java.util.Set) call -->
+	<property name="someSet">
+		<set>
+			<value>just some string</value>
+			<ref bean="myDataSource" />
+		</set>
+	</property>
+</bean>
+```
+
+### Null 주입
+
+Java의 null 값을 사용하기 위해서 <null/> element를 사용한다. Spring IoC container는 value 값이 설정되어 있지 않은 경우 빈문자열
+(“”)로 인식한다.
+
+```xml
+<bean class="ExampleBean">
+	<property name="email"><value/></property>
+</bean>
+<bean class="ExampleBean">
+	<property name="email"><null/></property>
+</bean>
+```
+
+### 간단 표기
+
+```xml
+<property name="myProperty">
+	<ref bean="myBean">
+</property>
+<!-- 아래와 같이 변경 가능 --> 
+<property name="myProperty" ref="myBean"/>
+
+<constructor-arg>
+<ref bean="myBean">
+</constructor-arg>
+<!-- 아래와 같이 변경 가능 --> 
+<constructor-arg ref="myBean"/>
+
+<entry>
+	<key>
+		<ref bean="myKeyBean" />
+	</key>
+	<ref bean="myValueBean" />
+</entry>
+<!-- 아래와 같이 변경 가능 --> 
+<entry key-ref="myKeyBean" value-ref="myValueBean"/>
+
+<beans>
+	<bean name="classic" class="com.example.ExampleBean">
+		<property name="email" value="foo@bar.com"/>
+	</bean>
+</beans>
+<!-- 아래와 같이 변경 가능 -->
+<beans>
+	<bean name="classic" class="com.example.ExampleBean" p:email="foo@bar.com"/>
+</beans>
+
+<beans>
+	<bean name="john-classic" class="com.example.Person">
+		<property name="name" value="John Doe"/>
+		<property name="spouse" ref="jane"/>
+	</bean>
+	<bean name="jane" class="com.example.Person">
+		<property name="name" value="Jane Doe"/>
+	</bean>
+</beans>
+<!-- 아래와 같이 변경 가능 -->
+<beans>
+	<bean name="john-modern" class="com.example.Person" p:name="John Doe" p:spouse-ref="jane"/>
+	<bean name="jane" class="com.example.Person">
+		<property name="name" value="Jane Doe"/>
+	</bean>
+</beans>
 ```
