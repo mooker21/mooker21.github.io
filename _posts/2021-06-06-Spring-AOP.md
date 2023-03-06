@@ -25,7 +25,6 @@ last_modified_at: 2021-06-06T00:00:00+08:00
 
 국가 표준프레임워크 문서를 복사 정리 함 -> [관련 파일 Link]({{ "https://www.egovframe.go.kr/cmm/file/readDownloadFile.do?fileId=FILE_000000000016699&fileSn=4" }}){:target="\_blank"}
 
-
 ## 주요 개념
 
 * Join Point
