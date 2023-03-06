@@ -1,5 +1,5 @@
 ---
-title: Spring AOP, logging
+title: Spring AOP
 layout: single
 author_profile: true
 read_time: true
@@ -11,18 +11,20 @@ categories:
   - Java
   - Spring
   - AOP
-  - logging
 toc: true
 toc_sticky: true
 toc_label: 목차
-description: Spring AOP, logging
+description: Spring AOP
 article_tag1: Spring
 article_tag2: AOP
 article_tag3: logging
-article_section: Spring, AOP, logging
-meta_keywords: Spring, AOP, logging
+article_section: Spring, AOP
+meta_keywords: Spring, AOP
 last_modified_at: 2021-06-06T00:00:00+08:00
 ---
+
+국가 표준프레임워크 문서를 복사 정리 함 -> [관련 파일 Link]({{ "https://www.egovframe.go.kr/cmm/file/readDownloadFile.do?fileId=FILE_000000000016699&fileSn=4" }}){:target="\_blank"}
+
 
 ## 주요 개념
 

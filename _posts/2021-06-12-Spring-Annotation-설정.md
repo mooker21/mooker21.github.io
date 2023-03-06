@@ -24,7 +24,7 @@ meta_keywords: Java, Spring, IoC, Annotation
 last_modified_at: 2021-06-12T00:00:00+08:00
 ---
 
-전자정품 표준프레임웍크 문서를 복사 정리 함
+국가 표준프레임워크 문서를 복사 정리 함
 
 ## @Required
 
