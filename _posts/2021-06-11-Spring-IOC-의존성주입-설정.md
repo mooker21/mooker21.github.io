@@ -50,7 +50,7 @@ anotation 설정을 사용하기 위한 포맷
 </beans>
 ```
 
-[Spring Annotation 설정 정리]({{ "" | relative_url }}{{% post_url 2021-06-11-Spring-Annotation-설정.md}}){:target="\_blank"}
+[Spring Annotation 설정 정리]({{ "" | relative_url }}{{% post_url 2021-06-12-Spring-Annotation-설정.md}}){:target="\_blank"}
 {: .notice--info}
 
 ## bean 설정 옵션
@@ -74,7 +74,7 @@ anotation 설정을 사용하기 위한 포맷
 * 자동엮기에는 5가지 모드가 있으며, XML 기반 설정에서는 <bean/> element의 'autowire' attribute를 사용하여 설정
 할 수 있다.
 
-[Spring Annotation 설정 정리]({{ "" | relative_url }}{{% post_url 2021-06-11-Spring-Annotation-설정.md}}){:target="\_blank"}
+[Spring Annotation 설정 정리]({{ "" | relative_url }}{{% post_url 2021-06-12-Spring-Annotation-설정.md}}){:target="\_blank"}
 {: .notice--info}
 
 ### 참조타입(byName), 타입(byType)

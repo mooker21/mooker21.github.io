@@ -24,8 +24,8 @@ last_modified_at: 2021-06-03T00:00:00+08:00
 
 **Tip:** 지난 자료 참고에서 제일 하단 **POM 최종정리**를 확인  
 그외 **root-context.xml**, **mybatis-config.xml** 설정도 확인 가능  
-[Spring Mybatis 연결 jUnit 테스트]({{ "" | relative_url }}{{% post_url 2021-06-01-Spring-Mybatis-연결-JUnit-테스트.md}}){:target="\_blank"}  
-[Spring Mybatis DB 연결 1]({{ "" | relative_url }}{{% post_url 2021-06-09-Spring-Mybatis-DB연결-#1.md}}){:target="\_blank"}
+[Spring Mybatis 연결 jUnit 테스트]({{ "" | relative_url }}{{% post_url 2021-06-04-Spring-Mybatis-연결-JUnit-테스트.md}}){:target="\_blank"}  
+[Spring Mybatis DB 연결 1]({{ "" | relative_url }}{{% post_url 2021-06-03-Spring-Mybatis-DB연결-#1.md}}){:target="\_blank"}
 {: .notice--info}
 
 ## 1. 최종 샘플 파일
