@@ -10,6 +10,7 @@ popular: true
 categories:
   - Java
   - Spring
+  - Mybatis
 toc: true
 toc_sticky: true
 toc_label: 목차
@@ -18,7 +19,7 @@ article_tag1: Spring Mybatis 연결 및 JUnit 테스트
 article_tag2:
 article_tag3:
 article_section: Spring Mybatis 연결 및 JUnit 테스트
-meta_keywords: Java, Spring
+meta_keywords: Java, Spring, Mybatis
 last_modified_at: 2021-06-04T00:00:00+08:00
 ---
 

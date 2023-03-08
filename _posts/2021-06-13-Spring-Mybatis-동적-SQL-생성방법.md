@@ -1,5 +1,5 @@
 ---
-title: Mybatis 동적 SQL 생성 방법
+title: Spring Mybatis 동적 SQL 생성 방법
 layout: single
 author_profile: true
 read_time: true
@@ -10,14 +10,15 @@ popular: true
 categories:
   - Java
   - Spring
+  - Mybatis
 toc: true
 toc_sticky: true
 toc_label: 목차
-description: Mybatis 동적 SQL 생성 방법
-article_tag1: Spring
-article_tag2: Mybatis
-article_tag3:
-article_section: Mybatis 동적 SQL 생성 방법
+description: Spring Mybatis 동적 SQL 생성 방법
+article_tag1: Java
+article_tag2: Spring
+article_tag3: Mybatis
+article_section: Spring Mybatis 동적 SQL 생성 방법
 meta_keywords: Java, Spring, Mybatis
 last_modified_at: 2021-06-13T00:00:00+08:00
 ---
@@ -129,37 +130,37 @@ IN (값, 값) 을 만들때 편리
 
 ```xml
 <select id="" ...>
-	SELECT *
-	FROM table
-	where id IN
-	<foreach collection="list" item="map" separator="," open="(" close=")">
-		#{map}
-	</foreach>
+    SELECT *
+    FROM table
+    where id IN
+    <foreach collection="list" item="map" separator="," open="(" close=")">
+        #{map}
+    </foreach>
 </select>
 ```
 
 ```xml
 String[] array;
 <select id="" ...>
-	SELECT *
-	FROM table
-	WHERE id IN
-	<foreach collection="array" item="map" index="i" separator="," open="(" close=")">
-		#{map[i]}
-	</foreach>
+    SELECT *
+    FROM table
+    WHERE id IN
+    <foreach collection="array" item="map" index="i" separator="," open="(" close=")">
+        #{map[i]}
+    </foreach>
 </select>
 ```
 
 ```xml
 ArrayList<String> list = new ArrayList<>();
 <select id="" ...>
-	SELECT *
-	FROM table
-	<where>
-		<foreach collection="list" item="map" separator="or" open="(" close=")">
-			id = #{map}
-		</foreach>
-	</where>
+    SELECT *
+    FROM table
+    <where>
+        <foreach collection="list" item="map" separator="or" open="(" close=")">
+            id = #{map}
+        </foreach>
+    </where>
 </select>
 ```
 

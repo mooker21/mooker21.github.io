@@ -1,5 +1,5 @@
 ---
-title: Spring Mybatis DB 연결 1
+title: Spring Mybatis DB 연결 2
 layout: single
 author_profile: true
 read_time: true
@@ -10,15 +10,16 @@ popular: true
 categories:
   - Java
   - Spring
+  - Mybatis
 toc: true
 toc_sticky: true
 toc_label: 목차
-description: Spring Mybatis DB 연결 1
-article_tag1: Spring Mybatis DB 연결 1
+description: Spring Mybatis DB 연결 2
+article_tag1: Spring Mybatis DB 연결 2
 article_tag2:
 article_tag3:
-article_section: Spring Mybatis DB 연결 1
-meta_keywords: Java, Spring
+article_section: Spring Mybatis DB 연결 2
+meta_keywords: Java, Spring, Mybatis
 last_modified_at: 2021-06-03T00:00:00+08:00
 ---
 
