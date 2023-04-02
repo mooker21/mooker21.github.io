@@ -287,8 +287,20 @@ logback.xml
 	<typeAliases>
 		<typeAlias type="com.member.dto.MemberVO" alias="memberVO"/>
 	</typeAliases>
+
+	<mappers>
+		<mapperresource="META-INF/sqlmap/mappers/memberMapper.xml"/>
+	</mappers>
 </configuration>
 ```
+| 요소          | 설명                                                         |
+| --------  | ------------------------------------------------------------ |
+| [properties](#)    | 설정 파일내에서 ${key}와 같은 형태로 외부 properties파일을 참조할 수 있다. |
+| [settings](#)    | 런타임시 MyBatis의 행위를 조정하기 위한 옵션 설정을 통해 최적화할 수 있도록 지원한다 |
+| [typeAliases](#)    | 타입 별칭을 통해 자바타입에 대한 좀더 짧은 이름을 사용할 수 있다.오직 XML 설정에서만 사용되며,타이핑을 줄이기 위해 사용된다. |
+| [typeHandlers](#) | javaType과 jdbcType 일치를 위해 TypeHandler 구현체를 등록하여 사용할 수 있다. |
+| [environments](#) | 환경에 따라 MyBatis 설정을 달리 적용할 수 있도록 지원한다. |
+| [Mappers](#) | 매핑할 SQL구문이 정의된 파일을 지정한다. |
 
 ### VO, Mapper 관련 파일 생성
 
